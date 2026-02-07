@@ -1,14 +1,3 @@
-"""
-Advanced Gesture Drone Controller
-==================================
-Unified controller with all advanced features:
-- Dynamic gestures (Circle, Swipe, Open/Close)
-- Hand pose estimation
-- Two-hand coordination (Follow mode)
-- AR overlay
-- Online learning
-"""
-
 import sys
 import os
 
