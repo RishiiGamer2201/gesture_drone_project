@@ -250,6 +250,14 @@ Contributions welcome! Areas for improvement:
 
 ---
 
+## Video Demonstration
+
+<video src="images/demo.mp4" controls title="Project Demo Video">
+  Your browser does not support the video tag.
+</video>
+
+---
+
 **Ready to fly! 🚁✨**
 
 *Built with ❤️ using Python, OpenCV, MediaPipe, and TensorFlow*
