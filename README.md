@@ -252,9 +252,7 @@ Contributions welcome! Areas for improvement:
 
 ## Video Demonstration
 
-<video src="[https://drive.google.com](https://drive.google.com/file/d/1U7Jknz6b5JID3wG8v70Un_lgvapMVmsT/view?usp=sharing)" controls width="100%">
-  Your browser does not support the video tag.
-</video>
+[Click here to watch the Project Demo Video]([https://drive.google.com](https://drive.google.com/file/d/1U7Jknz6b5JID3wG8v70Un_lgvapMVmsT/view?usp=sharing))
 
 ---
 
