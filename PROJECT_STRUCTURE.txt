@@ -29,7 +29,7 @@ gesture_drone_project/
 │   │
 │   ├── controllers/                  # Drone controllers
 │   │   ├── __init__.py
-│   │   └── advanced_controller.py    # Main advanced controller
+│   │   └── final_controller.py    # Main advanced controller
 │   │
 │   └── utils/                        # Utility modules
 │       ├── __init__.py
