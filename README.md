@@ -248,11 +248,9 @@ Contributions welcome! Areas for improvement:
 - Never fly near people/animals
 - Test extensively in mock mode first
 
----
-
 ## Video Demonstration
 
-[Click here to watch the Project Demo Video]([https://drive.google.com](https://drive.google.com/file/d/1U7Jknz6b5JID3wG8v70Un_lgvapMVmsT/view?usp=sharing))
+[Click here to watch the Project Demo Video](https://drive.google.com/file/d/1U7Jknz6b5JID3wG8v70Un_lgvapMVmsT/view?usp=sharing)
 
 ---
 
