@@ -6,7 +6,7 @@ A complete gesture recognition system for drone control with machine learning, f
 
 ### Core Features
 - **Three ML Models**: KNN, ANN, and CNN implementations
-- **Static Gestures**: 9 hand gestures for basic control (UP, DOWN, LEFT, RIGHT, FORWARD, BACKWARD, HOVER, LAND, FLIP)
+- **Static Gestures**: 10 hand gestures for basic control (UP, DOWN, LEFT, RIGHT, FORWARD, BACKWARD, HOVER, LAND, FLIP, ROCK)
 - **Dynamic Gestures**: CIRCLE, SWIPE (4 directions), OPEN/CLOSE, WAVE
 - **Hand Pose Estimation**: 3D position and orientation tracking
 - **Two-Hand Coordination**: Follow mode - drone follows your hand
@@ -113,6 +113,7 @@ python src/controllers/advanced_controller.py --model knn
 | ✌️ Peace Sign | FLIP | Backflip |
 | ✊ Fist | HOVER | Hover in place |
 | ✋ Open Palm | LAND | Land drone |
+| 🤘 Rock | CHANGE MODE | Change mode from static to dyanamic and vice-verse |
 
 ### Dynamic Gestures (Motion-Based)
 | Gesture | Command | Description |
