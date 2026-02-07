@@ -31,7 +31,8 @@ GESTURES = {
     5: "LAND",
     6: "FORWARD",
     7: "BACKWARD",
-    8: "FLIP"
+    8: "FLIP",
+    9: "ROCK"  # NEW: Rock gesture for mode switching
 }
 
 # Colors for visual feedback
@@ -57,7 +58,7 @@ class HandImageCollector:
         self.setup_directories()
         
         # Counters
-        self.gesture_counts = {i: 0 for i in range(9)}
+        self.gesture_counts = {i: 0 for i in range(10)}  # Now 10 gestures (0-9)
         self.total_images = 0
         
     def setup_directories(self):
@@ -160,7 +161,7 @@ class HandImageCollector:
         
         # Instructions
         y_offset = 75
-        cv2.putText(frame, "Press 0-8 to capture gesture", (20, y_offset),
+        cv2.putText(frame, "Press 0-9 to capture gesture", (20, y_offset),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
         y_offset += 25
         cv2.putText(frame, "Hold key to capture multiple", (20, y_offset),
@@ -175,7 +176,7 @@ class HandImageCollector:
                     cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
         y_offset += 25
         
-        for i in range(9):
+        for i in range(10):  # Changed to 10 gestures (0-9)
             count = self.gesture_counts[i]
             color = (0, 255, 0) if count >= 50 else (0, 165, 255) if count >= 30 else (100, 100, 100)
             cv2.putText(frame, f"{i}:{GESTURES[i][:3]} {count:3d}", 
@@ -251,7 +252,7 @@ class HandImageCollector:
                 # Check for key press
                 key = cv2.waitKey(1) & 0xFF
                 
-                if key >= ord('0') and key <= ord('8'):
+                if key >= ord('0') and key <= ord('9'):  # Changed to include '9'
                     gesture_id = key - ord('0')
                     current_gesture = GESTURES[gesture_id]
                     

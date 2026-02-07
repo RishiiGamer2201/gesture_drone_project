@@ -507,63 +507,83 @@ class AdvancedDroneController:
             if results.multi_hand_landmarks:
                 hands_data = results.multi_hand_landmarks
                 
-                # Check two-hand gestures
-                safety_status = self.handle_two_hand_gestures(hands_data)
+                # Check two-hand gestures (with error handling)
+                try:
+                    safety_status = self.handle_two_hand_gestures(hands_data)
+                except Exception as e:
+                    print(f"Warning: Two-hand detection error: {e}")
+                    safety_status = None
                 
                 # Process single hand
                 if len(hands_data) == 1 and not safety_status:
                     hand = hands_data[0]
                     
-                    # Update dynamic gesture detector
-                    self.dynamic_detector.add_frame(hand, 
-                        self.pose_estimator.get_hand_state(hand))
-                    
-                    # Get hand pose
-                    hand_orientation = self.pose_estimator.estimate_hand_rotation(hand)
-                    hand_pos_3d = self.pose_estimator.get_hand_3d_position(hand, w, h)
-                    
-                    # Add to AR trajectory
-                    wrist = hand.landmark[0]
-                    self.ar_overlay.add_trajectory_point((wrist.x * w, wrist.y * h))
+                    try:
+                        # Update dynamic gesture detector
+                        self.dynamic_detector.add_frame(hand, 
+                            self.pose_estimator.get_hand_state(hand))
+                        
+                        # Get hand pose
+                        hand_orientation = self.pose_estimator.estimate_hand_rotation(hand)
+                        hand_pos_3d = self.pose_estimator.get_hand_3d_position(hand, w, h)
+                        
+                        # Add to AR trajectory
+                        wrist = hand.landmark[0]
+                        self.ar_overlay.add_trajectory_point((wrist.x * w, wrist.y * h))
+                    except Exception as e:
+                        print(f"Warning: Hand processing error: {e}")
+                        hand_orientation = None
+                        hand_pos_3d = None
                     
                     if self.is_flying:
-                        # Check for dynamic gesture
-                        dynamic_gesture, dyn_conf = self.dynamic_detector.detect_dynamic_gesture()
-                        
-                        if dynamic_gesture:
-                            self.handle_dynamic_gesture(dynamic_gesture, dyn_conf)
-                            self.ar_overlay.draw_dynamic_gesture_trail(frame, dynamic_gesture)
-                        else:
-                            # Static gesture
-                            current_gesture, confidence, features = self.predict_static_gesture(
-                                frame, hand)
+                        try:
+                            # Check for dynamic gesture
+                            dynamic_gesture, dyn_conf = self.dynamic_detector.detect_all()
                             
-                            if confidence > RECOGNITION['confidence_threshold']:
-                                if current_gesture != self.last_gesture:
-                                    self.handle_flight_gesture(current_gesture, hand_orientation)
-                                    self.last_gesture = current_gesture
+                            if dynamic_gesture:
+                                self.handle_dynamic_gesture(dynamic_gesture, dyn_conf)
+                                if AR_OVERLAY['enabled']:
+                                    self.ar_overlay.draw_dynamic_gesture_trail(frame, dynamic_gesture)
+                            else:
+                                # Static gesture
+                                current_gesture, confidence, features = self.predict_static_gesture(
+                                    frame, hand)
+                                
+                                if confidence > RECOGNITION['confidence_threshold']:
+                                    if current_gesture != self.last_gesture:
+                                        self.handle_flight_gesture(current_gesture, hand_orientation)
+                                        self.last_gesture = current_gesture
+                        except Exception as e:
+                            print(f"Warning: Gesture recognition error: {e}")
                         
                         # Follow mode
-                        if self.drone.follow_mode:
-                            self.drone.follow_target((wrist.x, wrist.y), w, h)
-                            self.ar_overlay.draw_follow_mode_indicator(
-                                frame, (wrist.x, wrist.y), 
-                                DRONE_CONTROL['follow_mode_distance']
-                            )
+                        try:
+                            if self.drone.follow_mode:
+                                self.drone.follow_target((wrist.x, wrist.y), w, h)
+                                if AR_OVERLAY['enabled']:
+                                    self.ar_overlay.draw_follow_mode_indicator(
+                                        frame, (wrist.x, wrist.y), 
+                                        DRONE_CONTROL['follow_mode_distance']
+                                    )
+                        except Exception as e:
+                            print(f"Warning: Follow mode error: {e}")
                     
                     # Draw AR overlays
-                    if AR_OVERLAY['enabled']:
-                        if AR_OVERLAY['show_hand_skeleton']:
-                            self.ar_overlay.draw_hand_skeleton(
-                                frame, hand, self.mp_hands, self.mp_draw)
-                        if AR_OVERLAY['show_trajectory']:
-                            frame = self.ar_overlay.draw_trajectory(frame)
-                        if AR_OVERLAY['show_confidence'] and confidence:
-                            frame = self.ar_overlay.draw_confidence_meter(frame, confidence)
-                        if AR_OVERLAY['show_position']:
-                            self.ar_overlay.add_drone_position(self.drone.position)
-                            frame = self.ar_overlay.draw_drone_position_3d(
-                                frame, self.drone.position)
+                    try:
+                        if AR_OVERLAY['enabled']:
+                            if AR_OVERLAY['show_hand_skeleton']:
+                                self.ar_overlay.draw_hand_skeleton(
+                                    frame, hand, self.mp_hands, self.mp_draw)
+                            if AR_OVERLAY['show_trajectory']:
+                                frame = self.ar_overlay.draw_trajectory(frame)
+                            if AR_OVERLAY['show_confidence'] and confidence:
+                                frame = self.ar_overlay.draw_confidence_meter(frame, confidence)
+                            if AR_OVERLAY['show_position']:
+                                self.ar_overlay.add_drone_position(self.drone.position)
+                                frame = self.ar_overlay.draw_drone_position_3d(
+                                    frame, self.drone.position)
+                    except Exception as e:
+                        print(f"Warning: AR overlay error: {e}")
                 
                 # Draw landmarks for all hands
                 for hand_landmarks in hands_data:

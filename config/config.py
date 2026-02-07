@@ -79,6 +79,7 @@ TEMPORAL_CNN_CONFIG = {
 # ============================================================================
 
 # Static gestures (single frame)
+# Current (Missing ID 9)
 STATIC_GESTURES = {
     0: "UP",
     1: "DOWN",
@@ -88,18 +89,19 @@ STATIC_GESTURES = {
     5: "LAND",
     6: "FORWARD",
     7: "BACKWARD",
-    8: "FLIP"
+    8: "FLIP",
+    9: "ROCK"  # NEW: Rock gesture for mode switching
 }
 
 # Dynamic gestures (motion-based)
 DYNAMIC_GESTURES = {
-    9: "CIRCLE",
-    10: "SWIPE_LEFT",
-    11: "SWIPE_RIGHT",
-    12: "SWIPE_UP",
-    13: "SWIPE_DOWN",
-    14: "OPEN_CLOSE",  # Fist to open palm
-    15: "WAVE"
+    10: "CIRCLE",
+    11: "SWIPE_LEFT",
+    12: "SWIPE_RIGHT",
+    13: "SWIPE_UP",
+    14: "SWIPE_DOWN",
+    15: "OPEN_CLOSE",  # Fist to open palm
+    16: "WAVE"
 }
 
 # Combined gesture mapping

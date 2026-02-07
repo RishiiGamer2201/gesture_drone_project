@@ -18,14 +18,14 @@ echo ""
 read -p "Enter choice [1-9]: " choice
 
 case $choice in
-    1) python src/data_collection/collect_static.py ;;
-    2) python src/data_collection/collect_images.py ;;
-    3) python src/training/train_knn.py ;;
-    4) python src/training/train_ann.py ;;
-    5) python src/training/train_cnn.py ;;
-    6) python src/controllers/advanced_controller.py --model knn ;;
-    7) python src/controllers/advanced_controller.py --model ann ;;
-    8) python src/controllers/advanced_controller.py --model cnn ;;
+    1) python3 src/data_collection/collect_static.py ;;
+    2) python3 src/data_collection/collect_dynamic.py ;;
+    3) python3 src/training/train_knn.py ;;
+    4) python3 src/training/train_ann.py ;;
+    5) python3 src/training/train_cnn.py ;;
+    6) python3 src/controllers/advanced_controller.py --model knn ;;
+    7) python3 src/controllers/advanced_controller.py --model ann ;;
+    8) python3 src/controllers/advanced_controller.py --model cnn ;;
     9) echo "Goodbye!"; exit 0 ;;
     *) echo "Invalid choice"; exit 1 ;;
 esac

@@ -186,6 +186,33 @@ class DynamicGestureDetector:
         
         return oscillations >= min_oscillations * 2, frequency, amplitude
     
+    def detect_all(self):
+        """
+        Detect any dynamic gesture
+        Returns: (gesture_name, confidence) or (None, 0)
+        """
+        # Check for circle
+        is_circle, conf, direction = self.detect_circle()
+        if is_circle:
+            return "CIRCLE", conf
+        
+        # Check for swipe
+        is_swipe, direction, velocity = self.detect_swipe()
+        if is_swipe:
+            return f"SWIPE_{direction}", min(1.0, velocity / 100)
+        
+        # Check for open/close
+        is_transition, trans_type, conf = self.detect_open_close()
+        if is_transition:
+            return "OPEN_CLOSE", conf
+        
+        # Check for wave
+        is_wave, freq, amp = self.detect_wave()
+        if is_wave:
+            return "WAVE", min(1.0, freq * amp * 10)
+        
+        return None, 0.0
+    
     def clear(self):
         """Clear all history"""
         self.position_history.clear()
