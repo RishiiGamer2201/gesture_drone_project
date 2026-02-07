@@ -1,19 +1,3 @@
-"""
-FINAL Production Controller - Mode Switching System
-====================================================
-NEW FEATURE: Rock gesture (🤘) or 'd' key switches modes
-
-MODES:
-- STATIC MODE (default): Static gestures work, dynamic OFF
-- DYNAMIC MODE: Dynamic gestures work, drone in HOVER, static OFF
-
-Key Changes:
-1. Rock gesture (🤘) or 'd' key toggles between modes
-2. Dynamic mode: Drone auto-hovers, only dynamic gestures work
-3. Must switch to static mode to land (show rock/press 'd', then show palm)
-4. Photo capture improved - no stop on close/open
-"""
-
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../..'))
 
