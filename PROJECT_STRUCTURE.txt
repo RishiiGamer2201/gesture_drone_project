@@ -53,6 +53,8 @@ gesture_drone_project/
 │
 ├── logs/                             # System logs (generated)
 │
+├── test.py
+├── test1.py
 └── docs/                             # Additional documentation
 
 FEATURES IMPLEMENTED:
