@@ -46,6 +46,8 @@ gesture_drone_project/
 ├── models/                        # Trained models (generated)
 ├── data/                          # Training data (generated)
 ├── logs/                          # System logs
+├── test.py
+├── test1.py
 └── README.md                      # This file
 ```
 
