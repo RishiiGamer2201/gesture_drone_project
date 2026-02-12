@@ -319,7 +319,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Project: [gesture_drone_project](https://github.com/RishiiGamer2201/gesture_drone_project)
 
 ## 📽️ Video Demonstration
-[Click here to watch the Project Demo Video]([https://drive.google.com/file/d/1U7Jknz6b5JID3wG8v70Un_lgvapMVmsT/view?usp=sharing](https://drive.google.com/file/d/16gX5g2-xC_oKaBoL6-PYD5LgF_aieolB/view?usp=sharing))
+[Click here to watch the Project Demo Video](https://drive.google.com/file/d/16gX5g2-xC_oKaBoL6-PYD5LgF_aieolB/view?usp=sharing)
 
 ## 🙏 Acknowledgments
 
