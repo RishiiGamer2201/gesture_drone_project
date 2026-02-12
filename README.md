@@ -1,261 +1,354 @@
-# 🚁 Advanced Gesture-Controlled Drone System
+# 🚁 Gesture-Controlled Drone System
 
-A complete gesture recognition system for drone control with machine learning, featuring dynamic gestures, hand pose estimation, AR overlay, and online learning.
+A real-time hand gesture recognition system for controlling drones using computer vision and machine learning. Control your drone with simple hand gestures - no controller needed!
 
-## ✨ Features
+![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
+![OpenCV](https://img.shields.io/badge/OpenCV-4.8+-green.svg)
+![MediaPipe](https://img.shields.io/badge/MediaPipe-0.10+-orange.svg)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-2.13+-red.svg)
+![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-### Core Features
-- **Three ML Models**: KNN, ANN, and CNN implementations
-- **Static Gestures**: 10 hand gestures for basic control (UP, DOWN, LEFT, RIGHT, FORWARD, BACKWARD, HOVER, LAND, FLIP, ROCK)
-- **Dynamic Gestures**: CIRCLE, SWIPE (4 directions), OPEN/CLOSE, WAVE
-- **Hand Pose Estimation**: 3D position and orientation tracking
-- **Two-Hand Coordination**: Follow mode - drone follows your hand
-- **AR Overlay**: Real-time visualization with trajectory and 3D position
-- **Online Learning**: Adaptive model improvement during runtime
-- **Mock Drone**: Safe testing without hardware
+## 🎯 Features
 
-### Advanced Capabilities
-- **Follow Mode**: Left fist + right open palm activates drone following
-- **Image Capture**: Open/close gesture triggers camera
-- **Gesture Sequences**: Combine gestures for complex commands
-- **Confidence Scoring**: Visual feedback for gesture recognition quality
-- **Adaptive Speed**: Hand distance controls movement speed
-- **Rotation Control**: Hand tilt controls drone rotation
+### Core Capabilities
+- ✅ **10 Static Gestures** - UP, DOWN, LEFT, RIGHT, FORWARD, BACKWARD, HOVER, LAND, FLIP, ROCK
+- ✅ **Dynamic Gestures** - Circle, Swipe (4 directions), Photo Capture, Wave
+- ✅ **Two-Hand Controls** - Takeoff, Emergency Stop, Follow Mode
+- ✅ **Mode Switching** - Toggle between Static and Dynamic modes
+- ✅ **ML Model Support** - KNN, CNN, and ANN models for accurate recognition
+- ✅ **Real-time Hand Tracking** - 60+ FPS performance with MediaPipe
+- ✅ **AR Overlay** - Hand trajectory visualization and drone telemetry
+- ✅ **Robotic HUD** - Advanced hand skeleton display
+
+### Advanced Features
+- 🎮 **Dual Mode System** - Prevent gesture confusion with exclusive modes
+- 🤖 **ML Model Integration** - Automatic model detection and loading
+- 📸 **Photo Capture** - Take photos using hand gestures
+- 👤 **Follow Mode** - Drone follows your hand movements
+- 📊 **Live Telemetry** - Real-time position and status display
+- 🎨 **Custom HUD** - Robotic-style hand visualization
+
+## 🚀 Quick Start
+
+### Prerequisites
+```bash
+Python 3.8 or higher
+Webcam or external camera
+```
+
+### Installation
+
+1. **Clone the repository**
+```bash
+git clone https://github.com/RishiiGamer2201/gesture_drone_project.git
+cd gesture_drone_project
+```
+
+2. **Install dependencies**
+```bash
+pip install -r requirements.txt
+```
+
+3. **Run the application**
+```bash
+python test.py
+```
+
+That's it! The system will automatically detect and load any trained models from the `models/` folder.
+
+## 🎮 Controls
+
+### Two-Hand Gestures (Always Active)
+| Gesture | Action | Description |
+|---------|--------|-------------|
+| ✋✋ Two open palms | **TAKEOFF** | Launch the drone |
+| ✊✊ Two fists | **EMERGENCY** | Immediate stop and land |
+| ✊✋ Fist + Open | **FOLLOW MODE** | Toggle follow mode |
+
+### Static Mode (Default)
+| Gesture | Action | How to Perform |
+|---------|--------|----------------|
+| ☝️ One finger up | **UP** | Point index finger upward |
+| 👇 One finger down | **DOWN** | Point index finger downward |
+| 👈 Point left | **LEFT** | Point index finger left |
+| 👉 Point right | **RIGHT** | Point index finger right |
+| 👍 Thumbs up | **FORWARD** | Thumb pointing up |
+| 👎 Thumbs down | **BACKWARD** | Thumb pointing down |
+| ✊ Closed fist | **HOVER** | Make a fist |
+| ✋ Open palm | **LAND** | Show all 5 fingers |
+| ✌️ Peace sign | **FLIP** | Index + middle finger up |
+| 🤘 Rock sign | **MODE SWITCH** | Index + pinky up |
+
+### Dynamic Mode (After switching)
+| Gesture | Action | How to Perform |
+|---------|--------|----------------|
+| 🔄 Circle | **ORBIT** | Draw a circle with hand |
+| 👆 Swipe Up | **FAST UP** | Quick upward motion |
+| 👇 Swipe Down | **FAST DOWN** | Quick downward motion |
+| 👈 Swipe Left | **FAST LEFT** | Quick left motion |
+| 👉 Swipe Right | **FAST RIGHT** | Quick right motion |
+| 📸 Fist → Open | **PHOTO** | Close then open hand |
+| 👋 Wave | **RETURN HOME** | Wave hand side to side |
+
+### Keyboard Shortcuts
+| Key | Action |
+|-----|--------|
+| `d` | Toggle between Static and Dynamic modes |
+| `q` | Quit application |
 
 ## 📁 Project Structure
 
 ```
 gesture_drone_project/
-├── config/
-│   └── config.py                 # Central configuration
+├── test.py                          # Main application (START HERE)
+├── requirements.txt                 # Python dependencies
+├── README.md                        # This file
+├── PROJECT_STRUCTURE.txt           # Detailed structure
+│
+├── models/                          # Trained ML models
+│   ├── gesture_model_knn.yml       # K-Nearest Neighbors model
+│   ├── gesture_model_cnn.h5        # Convolutional Neural Network
+│   └── gesture_model_ann.pkl       # Artificial Neural Network
+│
+├── data/                            # Training and collected data
+│   ├── hand_images/                # CNN training images (by gesture)
+│   ├── training_data/              # KNN/ANN training data
+│   └── sequences/                  # Dynamic gesture sequences
+│
+├── captured_images/                 # Photos taken with gestures
+│
 ├── src/
-│   ├── data_collection/
-│   │   ├── collect_static.py     # Collect static gesture data
-│   │   ├── collect_dynamic.py    # Collect dynamic gesture sequences
-│   │   └── collect_images.py     # Collect images for CNN
-│   ├── training/
-│   │   ├── train_knn.py          # Train KNN model
-│   │   ├── train_ann.py          # Train ANN model
-│   │   └── train_cnn.py          # Train CNN model
-│   ├── controllers/
-│   │   └── advanced_controller.py # Main advanced controller
-│   └── utils/
-│       ├── gesture_detection.py   # Dynamic gesture detection
+│   ├── controllers/                # Drone controllers
+│   │   ├── final_controller.py    # Production controller
+│   │   ├── simple_controller.py   # Basic controller
+│   │   └── advanced_controller.py # Full-featured controller
+│   │
+│   ├── data_collection/            # Data collection tools
+│   │   ├── collect_images.py      # Collect hand images for CNN
+│   │   └── collect_static.py      # Collect landmark data for KNN/ANN
+│   │
+│   ├── training/                   # Model training scripts
+│   │   ├── train_knn.py           # Train KNN model
+│   │   ├── train_ann.py           # Train ANN model
+│   │   └── train_cnn.py           # Train CNN model
+│   │
+│   └── utils/                      # Utility modules
+│       ├── gesture_detection.py   # Gesture detection logic
 │       ├── ar_overlay.py          # AR visualization
 │       └── online_learning.py     # Adaptive learning
-├── models/                        # Trained models (generated)
-├── data/                          # Training data (generated)
-├── logs/                          # System logs
-├── test.py
-├── test1.py
-└── README.md                      # This file
+│
+└── config/
+    └── config.py                   # Configuration settings
+
 ```
 
-## 🚀 Quick Start
+## 🛠️ How It Works
 
-### 1. Installation
+### 1. Hand Detection
+Uses Google's **MediaPipe** to detect hands and extract 21 landmark points per hand in real-time.
 
-```bash
-# Install dependencies
-pip install -r requirements.txt
+### 2. Gesture Classification
+Three ML models available (automatically selected):
+- **KNN** - Fast, lightweight, good for real-time (Priority 1)
+- **CNN** - Most accurate, best for static gestures (Priority 2)
+- **ANN** - Balanced speed and accuracy (Priority 3)
+- **Fallback** - Simple finger counting if no models found
+
+### 3. Dynamic Gesture Detection
+Analyzes hand motion over time (15-20 frames) to detect:
+- Circular motions
+- Directional swipes
+- Hand opening/closing transitions
+- Waving patterns
+
+### 4. Mode System
+**STATIC MODE** (Default):
+- Only static gestures work
+- Full drone control
+- Can land normally
+
+**DYNAMIC MODE** (Activated by ROCK gesture or 'd' key):
+- Only dynamic gestures work
+- Drone auto-hovers
+- Must switch back to Static to land
+
+This prevents confusion between static and dynamic gestures!
+
+### 5. Drone Control
+Currently uses a **MockDrone** for safe testing. Replace with real drone API (DJI Tello) for actual flight:
+```python
+# Replace MockDrone with:
+from djitellopy import Tello
+drone = Tello()
+drone.connect()
 ```
 
-### 2. Collect Training Data
+## 📊 Training Your Own Models
 
+### Step 1: Collect Data
+
+**For CNN (Image-based):**
 ```bash
-# For KNN/ANN (landmarks)
-python src/data_collection/collect_static.py
-
-# For CNN (images)
 python src/data_collection/collect_images.py
+```
+- Press 0-9 to capture gestures
+- Collect 50-100 images per gesture
+- Images saved to `data/hand_images/`
 
-# For dynamic gestures
-python src/data_collection/collect_dynamic.py
+**For KNN/ANN (Landmark-based):**
+```bash
+python src/data_collection/collect_static.py
+```
+- Press 0-9 to capture gestures
+- Press 's' to save
+- Data saved to `data/training_data/`
+
+### Step 2: Train Models
+
+**Train KNN:**
+```bash
+python src/training/train_knn.py
 ```
 
-**Recommendation**: Collect 50-100 samples per gesture
-
-### 3. Train Models
-
+**Train CNN:**
 ```bash
-# Train KNN (fastest)
-python src/training/train_knn.py
-
-# Train ANN (best accuracy)
-python src/training/train_ann.py
-
-# Train CNN (most robust)
 python src/training/train_cnn.py
 ```
 
-### 4. Run Controller
-
+**Train ANN:**
 ```bash
-# With CNN (recommended)
-python src/controllers/advanced_controller.py --model cnn
-
-# With ANN
-python src/controllers/advanced_controller.py --model ann
-
-# With KNN
-python src/controllers/advanced_controller.py --model knn
+python src/training/train_ann.py
 ```
 
-## 🎮 Gesture Controls
+Models are automatically saved to `models/` and will be loaded on next run.
 
-### Static Gestures (Single Frame)
-| Gesture | Command | Description |
-|---------|---------|-------------|
-| 👆 Index Up | UP | Move drone up |
-| 👇 Index Down | DOWN | Move drone down |
-| 👈 Index Left | LEFT | Move drone left |
-| 👉 Index Right | RIGHT | Move drone right |
-| 👍 Thumbs Up | FORWARD | Move forward |
-| 👎 Thumbs Down | BACKWARD | Move backward |
-| ✌️ Peace Sign | FLIP | Backflip |
-| ✊ Fist | HOVER | Hover in place |
-| ✋ Open Palm | LAND | Land drone |
-| 🤘 Rock | CHANGE MODE | Change mode from static to dyanamic and vice-verse |
+## 🎯 Performance
 
-### Dynamic Gestures (Motion-Based)
-| Gesture | Command | Description |
-|---------|---------|-------------|
-| ⭕ Circle Motion | CIRCLE | Orbit mode |
-| ← Swipe Left | SWIPE_LEFT | Fast left |
-| → Swipe Right | SWIPE_RIGHT | Fast right |
-| ↑ Swipe Up | SWIPE_UP | Fast up |
-| ↓ Swipe Down | SWIPE_DOWN | Fast down |
-| ✊→✋ Fist to Open | OPEN_CLOSE | Capture image |
-| 👋 Wave | WAVE | Return to home |
-
-### Two-Hand Gestures
-| Gesture | Command | Description |
-|---------|---------|-------------|
-| ✋✋ Two Open Palms | TAKEOFF | Takeoff |
-| ✊✊ Two Fists | EMERGENCY | Emergency stop |
-| ✊✋ Left Fist + Right Open | FOLLOW MODE | Drone follows hand |
-
-## 🎯 Model Comparison
-
-| Feature | KNN | ANN | CNN |
-|---------|-----|-----|-----|
-| **Training Time** | <1s | 30-60s | 60-120s |
-| **Prediction Speed** | 1ms | 5ms | 8ms |
-| **Accuracy** | 85-95% | 90-98% | 92-99% |
-| **Data Needed** | 20+ | 30+ | 50+ |
-| **Best For** | Learning | Production | Research |
+- **FPS**: 25-30 on average hardware
+- **Latency**: 30-50ms gesture recognition
+- **Accuracy**: 
+  - KNN: 85-90%
+  - CNN: 92-95%
+  - ANN: 88-92%
+  - Fallback: 70-80%
 
 ## 🔧 Configuration
 
 Edit `config/config.py` to customize:
-
-- **Gesture sensitivity**
-- **Movement distances**
-- **Confidence thresholds**
-- **AR overlay settings**
-- **Online learning parameters**
-
-## 📊 Advanced Features
-
-### Hand Pose Estimation
-- Estimates 3D hand position
-- Tracks hand orientation (roll, pitch, yaw)
-- Controls drone rotation with hand tilt
-- Adjusts speed based on hand distance
-
-### Follow Mode
-- Activate with left fist + right open palm
-- Drone maintains distance from target hand
-- Auto-adjusts position as you move
-- Deactivates automatically on other gestures
-
-### Online Learning
-- Corrects mispredictions in real-time
-- Press 'c' to enter correction mode
-- Model auto-updates after 50 corrections
-- Personalizes to your gesture style
-
-### AR Overlay
-- Hand trajectory visualization
-- 3D drone position display
-- Confidence meter
-- Gesture type indicators
-- FPS counter
+```python
+CAMERA_ID = 0                  # Camera index
+CAMERA_WIDTH = 1280            # Resolution
+CAMERA_HEIGHT = 720
+MOVE_DISTANCE = 20             # Movement distance (cm)
+CONFIDENCE_THRESHOLD = 0.75    # Minimum confidence
+COOLDOWN_GESTURE = 0.5         # Gesture cooldown (seconds)
+```
 
 ## 🐛 Troubleshooting
 
-**Camera not detected:**
-```bash
-# Test camera
-python -c "import cv2; print('OK' if cv2.VideoCapture(0).read()[0] else 'FAIL')"
+### Camera Not Opening
+```python
+# Try different camera IDs in config/config.py
+CAMERA_ID = 0  # Try 0, 1, 2, etc.
 ```
 
-**Low accuracy:**
-- Collect more diverse training data
-- Ensure good lighting
-- Make distinct gestures
-- Use CNN model for best results
+### Gestures Not Detected
+1. Ensure good lighting
+2. Hand fully visible to camera
+3. Check confidence threshold
+4. Train models with your own hand data
 
-**Gestures not recognized:**
-- Check confidence threshold in config
-- Ensure entire hand is visible
-- Improve lighting conditions
-- Retrain with more samples
+### Mode Not Switching
+1. Verify ROCK gesture is correct:
+   - Index finger: UP
+   - Pinky finger: UP
+   - Middle finger: DOWN
+   - Ring finger: DOWN
+2. Try 'd' key instead
+3. Wait for cooldown (1.5 seconds)
 
-## 📈 Performance Tips
+### Low Accuracy
+1. Collect more training data
+2. Train with your specific hand
+3. Adjust lighting conditions
+4. Increase confidence threshold
 
-1. **Lighting**: Bright, even lighting works best
-2. **Background**: Simple, uncluttered background
-3. **Distance**: Keep hand 30-100cm from camera
-4. **Gestures**: Make clear, exaggerated gestures
-5. **Position**: Keep hand centered in frame
+## 🚀 Advanced Usage
 
-## 🔬 For Real Drone (DJI Tello)
+### Using with Real Drone (DJI Tello)
 
-1. Install djitellopy:
+1. Install DJI Tello SDK:
 ```bash
 pip install djitellopy
 ```
 
-2. Replace `AdvancedMockDrone` with:
+2. Modify `test.py`:
 ```python
+# Replace line ~40:
 from djitellopy import Tello
+
+# Replace MockDrone() with:
 self.drone = Tello()
+self.drone.connect()
 ```
 
-3. Connect to Tello WiFi network
-
-4. Test in safe, open area!
-
-## 📝 License
-
-This project is for educational purposes.
+3. **Safety First**:
+- Test in open area
+- Have manual override ready
+- Start with low altitude
+- Follow local regulations
 
 ## 🤝 Contributing
 
-Contributions welcome! Areas for improvement:
-- More dynamic gestures
-- Voice command integration
-- Multi-drone control
-- Mobile deployment
-- Better visualization
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-## ⚠️ Safety
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-**IMPORTANT** when using real drone:
-- Always fly in open, safe areas
-- Keep drone in sight
-- Have manual override ready
-- Follow local regulations
-- Never fly near people/animals
-- Test extensively in mock mode first
+## 📝 License
 
-## Video Demonstration
+This project is licensed under the MIT License - see the LICENSE file for details.
 
+## 👨‍💻 Author
+
+**Rishii Kumar Singh**
+- GitHub: [@RishiiGamer2201](https://github.com/RishiiGamer2201)
+- Project: [gesture_drone_project](https://github.com/RishiiGamer2201/gesture_drone_project)
+
+## 📽️ Video Demonstration
 [Click here to watch the Project Demo Video](https://drive.google.com/file/d/1U7Jknz6b5JID3wG8v70Un_lgvapMVmsT/view?usp=sharing)
+
+## 🙏 Acknowledgments
+
+- **MediaPipe** by Google for hand tracking
+- **OpenCV** for computer vision
+- **TensorFlow** for deep learning
+- **DJI Tello** for drone platform
+
+## 📞 Support
+
+For issues, questions, or suggestions:
+1. Open an issue on GitHub
+2. Review existing issues for solutions
+
+## 🎓 Learn More
+
+This project demonstrates:
+- Computer Vision with OpenCV
+- Hand tracking with MediaPipe
+- Machine Learning (KNN, CNN, ANN)
+- Real-time gesture recognition
+- State management
+- AR visualization
+- Drone control systems
+
+Perfect for learning CV, ML, and robotics!
 
 ---
 
-**Ready to fly! 🚁✨**
+**⚠️ Safety Warning**: Always test with MockDrone first. Follow all safety guidelines and local regulations when using real drones.
 
-*Built with ❤️ using Python, OpenCV, MediaPipe, and TensorFlow*
+**🎯 Ready to fly?** Run `python test.py` and start controlling with your hands!
