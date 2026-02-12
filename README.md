@@ -101,6 +101,7 @@ That's it! The system will automatically detect and load any trained models from
 ```
 gesture_drone_project/
 ├── test.py                          # Main application (START HERE)
+├── test1.py
 ├── requirements.txt                 # Python dependencies
 ├── README.md                        # This file
 ├── PROJECT_STRUCTURE.txt           # Detailed structure
