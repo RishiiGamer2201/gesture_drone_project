@@ -104,7 +104,6 @@ gesture_drone_project/
 ├── test1.py
 ├── requirements.txt                 # Python dependencies
 ├── README.md                        # This file
-├── PROJECT_STRUCTURE.txt           # Detailed structure
 │
 ├── models/                          # Trained ML models
 │   ├── gesture_model_knn.yml       # K-Nearest Neighbors model
